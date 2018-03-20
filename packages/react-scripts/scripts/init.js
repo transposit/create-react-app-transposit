@@ -65,6 +65,22 @@ module.exports = function(
     : path.join(ownPath, 'template');
   if (fs.existsSync(templatePath)) {
     fs.copySync(templatePath, appPath);
+
+    // Replace known patterns in the templates with Transposit service information
+    let contents = fs.readFileSync(path.join(appPath, 'src/AppContent.tsx')).toString();
+    process.argv.forEach((arg) => {
+      if (arg.startsWith('--service=')) {
+        const [key, value] = arg.split('=');
+        const [maintainer, name] = value.split('/');
+        contents = contents.replace('${SERVICE_MAINTAINER}', maintainer);
+        contents = contents.replace('${SERVICE_NAME}', name);
+      }
+      if (arg.startsWith('--transposit-url')) {
+        const [key, value] = arg.split('=');
+        contents = contents.replace('${TRANSPOSIT_URL}', value);
+      }
+    })
+    fs.writeFileSync(path.join(appPath, 'src/AppContent.tsx'), contents);
   } else {
     console.error(
       `Could not locate supplied template: ${chalk.green(templatePath)}`
@@ -104,24 +120,27 @@ module.exports = function(
   }
 
   // Install dev dependencies
-  const types = [
+  const devDependencies = [
     '@types/node',
     '@types/react',
     '@types/react-dom',
+    '@types/react-router',
+    '@types/react-router-dom',
     '@types/jest',
     'typescript',
+    'tslint-config-prettier'
   ];
 
   console.log(
-    `Installing ${types.join(', ')} as dev dependencies ${command}...`
+    `Installing ${devDependencies.join(', ')} as dev dependencies ${command}...`
   );
   console.log();
 
-  const devProc = spawn.sync(command, args.concat('-D').concat(types), {
+  const devProc = spawn.sync(command, args.concat('-D').concat(devDependencies), {
     stdio: 'inherit',
   });
   if (devProc.status !== 0) {
-    console.error(`\`${command} ${args.concat(types).join(' ')}\` failed`);
+    console.error(`\`${command} ${args.concat(devDependencies).join(' ')}\` failed`);
     return;
   }
 
@@ -154,6 +173,20 @@ module.exports = function(
       console.error(`\`${command} ${args.join(' ')}\` failed`);
       return;
     }
+  }
+
+  // Other packages we want installed by default
+  const dependencies = ['transposit', 'antd', 'react-router', 'react-router-dom'];
+
+  console.log(`Installing ${dependencies.join(', ')} using ${command}...`);
+  console.log();
+
+  const proc = spawn.sync(command, args.concat(dependencies), {
+    stdio: 'inherit',
+  });
+  if (proc.status !== 0) {
+    console.error(`\`${command} ${args.join(' ')}\` failed`);
+    return;
   }
 
   // Display the most elegant way to cd.

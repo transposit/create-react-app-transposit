@@ -1,5 +1,6 @@
 {
-    "extends": ["tslint-react"],
+    "extends": ["tslint-react", "tslint-config-prettier"],
+    "defaultSeverity": "warning",
     "rules": {
         "align": [
             true,
@@ -61,7 +62,6 @@
             "check-open-brace",
             "check-whitespace"
         ],
-        "quotemark": [true, "single", "jsx-double"],
         "radix": true,
         "semicolon": [true, "always"],
         "switch-default": true,
