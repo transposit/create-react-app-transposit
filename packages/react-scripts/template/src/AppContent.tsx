@@ -30,6 +30,17 @@ export const transposit = new Transposit(
   transpositUrl
 );
 
+/*
+ * Contains top-level application logic, including routing and the sidebar.
+ *
+ * Routes:
+ *   * /login - has a button to start the login flow. Logged out users are redirected here.
+ *   * /handle-login - completes the login process and then redirects to the
+ *                     main content. Use this as the redirect url in your deploy configuration.
+ *   * / - the logged in content for the application
+ *
+ * If none of these match, a 404 page is displayed (NoMatch.tsx)
+ */
 class AppContent extends React.Component<RouteComponentProps<{}>, {}> {
   constructor(props: RouteComponentProps<{}>) {
     super(props);

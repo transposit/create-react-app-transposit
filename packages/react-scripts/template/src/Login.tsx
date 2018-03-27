@@ -12,6 +12,9 @@ interface Props {
   serviceName: string;
 }
 
+/*
+ * Login page. Contains a button that starts the user through the google login flow.
+ */
 export const Login: React.StatelessComponent<Props> = ({
   transpositUrl,
   maintainer,

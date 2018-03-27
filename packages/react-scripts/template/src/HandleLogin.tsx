@@ -11,6 +11,11 @@ interface State {
   finishedTryingLogin: boolean;
 }
 
+/*
+ * Uses the Transposit SDK to complete the login process.
+ * The SDK will grab the auth token from the url and save it in
+ * local browser storage for later use.
+ */
 export class HandleLogin extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
