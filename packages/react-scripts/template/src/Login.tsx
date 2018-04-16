@@ -24,7 +24,9 @@ export const Login: React.StatelessComponent<Props> = ({
     <Button
       type="primary"
       onClick={() =>
-        (window.location.href = `${transpositUrl}/app/v1/${maintainer}/${serviceName}/login/google`)
+        (window.location.href = `${transpositUrl}/app/v1/${maintainer}/${serviceName}/login/google?redirectUri=${
+          window.location.origin
+        }/handle-login`)
       }
     >
       Login
