@@ -3,7 +3,7 @@
 Create React apps with Transposit and Typescript with no build configuration.
 
  * [Getting Started](#tldr) – How to create a new app.
- * [User Guide](https://github.com/wmonk/create-react-app-typescript/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with react scripts ts.
+ * [User Guide](https://github.com/transposit/create-react-app-typescript/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with react scripts ts.
 
 Bootstrap a typescript react app with login for Transposit (using the [Transposit SDK](https://www.npmjs.com/package/transposit)) setup out of the box.
 
